@@ -1,8 +1,23 @@
-<html>
+<html lang="en">
 <head>
-	<title>ToDo List</title>
+  <meta charset="utf-8">
+
+  <title>ToDo List</title>
+  <meta name="Sabrina" content="ToDoList">
+
 </head>
+
 <body>
 	<h1>Its a <%= day %></h1>
+	<ul>
+		<% for (var i = 0; i < item.length; ++i) { %>
+		<li><%= item[i] %></li>
+		<% } %>
+	</ul>
+
+	<form action="/" method="post">
+		<input type="text" name="item">
+		<button type="submit" name="submit">Add</button>
+	</form>
 </body>
 </html>
