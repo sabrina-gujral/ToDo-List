@@ -5,13 +5,14 @@ const app = express();
 
 app.set("view engine", 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 
-var items = [];
+let items = [];
 
 app.get('/', function (req, res){
-	var today = new Date();
-	var date = today.toDateString().slice(3);
-	var day = today.toLocaleDateString('en-US', {weekday: 'long'}) + ", " + date;
+	let today = new Date();
+	let date = today.toDateString().slice(3);
+	let day = today.toLocaleDateString('en-US', {weekday: 'long'}) + ", " + date;
 
 	res.render('list', {day: day,
 		item: items,})
