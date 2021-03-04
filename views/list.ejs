@@ -1,21 +1,10 @@
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/9b1f791f2d.js"></script>
-    <link rel="stylesheet" href="./styles.css">
-    <title>ToDo List</title>
-    <meta name="Sabrina" content="ToDoList">
-</head>
-
-<body>
+<%- include("header"); -%>
     <div class="content">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="box" id="heading">
-                        <%= day %>
+                        <%= listTitle %>
                     </h1>
                 </div>
             </div>
@@ -27,22 +16,21 @@
                         <div class="card-body">
                             <!-- <p class="pin-left"><i class="fa fa-times-circle-o"></i></p>
                     	<p class="pin-right"><i class="fa fa-times-circle-o"></i></p> -->
-                            <form action="/" method="post">
+                            <form action="" method="post">
                                 <input type="text" class="form-control add-task" placeholder="New Item" name="item" autocomplete="off">
-                                <button type="submit" name="submit" style="display: none;"></button>
+                                <button type="submit" name="list" value=<%= listTitle %> style="display: none;"></button>
                             </form>
-                            <ul class="nav nav-pills todo-nav">
+                            <!-- <ul class="nav nav-pills todo-nav">
                                 <li role="presentation" class="nav-item all-task active"><a href="#" class="nav-link">All</a></li>
                                 <li role="presentation" class="nav-item active-task"><a href="#" class="nav-link">Active</a></li>
                                 <li role="presentation" class="nav-item completed-task"><a href="#" class="nav-link">Completed</a></li>
-                            </ul>
+                            </ul> -->
                             <div class="todo-list">
                                 <% for (var i = 0; i < item.length; ++i) { %>
                                 <div class="todo-item">
                                     <input type="checkbox">
                                     <span class="item">
                                         <%= item[i] %></span>
-                                    <!-- <a href="javascript:void(0);" class="float-right remove-todo-item"><i class="icon-close"></i></a> -->
                                 </div>
                                 <% } %>
                             </div>
@@ -52,6 +40,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+<%- include("footer"); -%>
