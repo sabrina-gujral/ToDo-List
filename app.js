@@ -11,6 +11,23 @@ let items = [];
 let weekdayList = [];
 let weekendList = [];
 
+app.get('/', function(req, res) {
+	res.render('index');
+})
+
+app.post('/', function(req, res){
+	if(req.body.list === 'weekday'){
+		res.redirect('/weekday');
+	} 
+	else if (req.body.list === 'weekend') {
+		res.redirect('/weekend')
+	}
+	else {
+		res.redirect('/today');
+	}
+})
+
+
 app.get('/weekday', function (req, res){
 	res.render('list', {listTitle: "Weekday List",
 		item: weekdayList,});
@@ -23,6 +40,7 @@ app.post('/weekday', function (req, res) {
 		item: weekdayList,});
 })
 
+
 app.get('/weekend', function (req, res){
 	res.render('list', {listTitle: "Weekend List",
 		item: weekendList,});
@@ -33,6 +51,7 @@ app.post('/weekend', function (req, res) {
 	weekendList.push(item);
 	res.redirect('/weekend');
 })
+
 
 app.get('/today', function (req, res){
 	let today = new Date();
