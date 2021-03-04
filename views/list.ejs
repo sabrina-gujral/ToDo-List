@@ -1,43 +1,47 @@
 <%- include("header"); -%>
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1 class="box" id="heading">
-                        <%= listTitle %>
-                    </h1>
-                </div>
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="box" id="heading">
+                    <%= listTitle %>
+                </h1>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card card-white">
-                        <div class="card-body">
-                            <!-- <p class="pin-left"><i class="fa fa-times-circle-o"></i></p>
-                    	<p class="pin-right"><i class="fa fa-times-circle-o"></i></p> -->
-                            <form action="" method="post">
-                                <input type="text" class="form-control add-task" placeholder="New Item" name="item" autocomplete="off">
-                                <button type="submit" name="list" value=<%= listTitle %> style="display: none;"></button>
-                            </form>
-                            <!-- <ul class="nav nav-pills todo-nav">
-                                <li role="presentation" class="nav-item all-task active"><a href="#" class="nav-link">All</a></li>
-                                <li role="presentation" class="nav-item active-task"><a href="#" class="nav-link">Active</a></li>
-                                <li role="presentation" class="nav-item completed-task"><a href="#" class="nav-link">Completed</a></li>
-                            </ul> -->
-                            <div class="todo-list">
-                                <% for (var i = 0; i < item.length; ++i) { %>
-                                <div class="todo-item">
-                                    <input type="checkbox">
-                                    <span class="item">
-                                        <%= item[i] %></span>
-                                </div>
-                                <% } %>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-white">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            <input type="text" class="form-control add-task" placeholder="New Item" name="item" autocomplete="off">
+                            <button type="submit" name="list" value=<%=listTitle %> style="display: none;"></button>
+                        </form>
+                        <div class="todo-list">
+                            <% for (var i = 0; i < item.length; ++i) { %>
+                            <div id=<%= 'item'+i %> class="todo-item">
+                                <input type="checkbox">
+                                <span class="item">
+                                    <%= item[i] %></span>
+                                        <span class="remove-item" id=<%= 'remove'+i %>><i class="fa fa-trash trash"></i></span>
                             </div>
+                            <% } %>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<script>
+    $('document').ready(function(e){
+        $('.remove-item').click(function() {
+        var removeId = $(this).attr('id');
+        var i = removeId.slice(6);
+        $('#item'+i).remove();
+    })
+    })
+    
+</script>
 <%- include("footer"); -%>

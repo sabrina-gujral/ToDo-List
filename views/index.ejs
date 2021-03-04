@@ -1,13 +1,14 @@
 <%- include("header"); -%>
-
-<div class="nolist">
-	<h2>You don't know what ToDo yet!</h2>
-	<h1>Let's get started!</h1>
-	<h6>Create a</h6>
+<div class="container nolist">
+    <div class="nolist-content">
+        <h2>You don't know what ToDo yet!</h2>
+        <h1>Let's get started!</h1>
+        <h6 class="button-form">Create a</h6>
+        <form action="/" method="post" class="">
+            <a href="/weekend"><button class="btn btn-dark" type="submit" name="list" value="weekend">Weekend List</button></a>
+            <a href="/weekday"><button class="btn btn-dark" type="submit" name="list" value="weekday">Weekday List</button></a>
+            <a href="/today"><button class="btn btn-dark" type="submit" name="list" value="today">Today List</button></a>
+        </form>
+    </div>
 </div>
-<form action="/" method="post">
-	<a href="/weekend"><button type="submit" name="list" value="weekend">Weekend List</button></a>
-	<a href="/weekday"><button type="submit" name="list" value="weekday">Weekday List</button></a>
-	<a href="/today"><button type="submit" name="list" value="today">Today List</button></a>
-</form>
 <%- include("footer"); -%>
