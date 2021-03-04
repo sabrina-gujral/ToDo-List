@@ -100,7 +100,7 @@ div.button, div.checker, div.radio, div.selector, div.uploader {
 }
 
 .content {
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 input[type="checkbox"]{
@@ -123,7 +123,22 @@ input:checked+span {
 
 }
 
-.nav-color {
-    background-color: #685B80;
-    color: #fff;
+.form-control {
+    color: #25303B !important;
+    border-bottom: 1px solid #999ba1 !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+
+}
+
+.form-control:focus {
+    border-color: #fff !important;
+    outline: 0;
+    border: 0 !important;
+    box-shadow: 0px 2px 0px 0px rgba(32,43,86,0.75) !important;
+}
+
+.nolist {
+
 }
