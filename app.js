@@ -127,7 +127,7 @@ app.get('/today', function(req, res) {
                 else
                     console.log("inserted!");
             });
-            res.redirect('/');
+            res.redirect('/today');
         }
 
         const day = date.getDate();
@@ -147,6 +147,35 @@ app.post('/today', function(req, res) {
 
     item.save();
     res.redirect('/today');
+})
+
+app.post('/delete', function(req, res) {
+    const checkedItem = req.body.checkedItem;
+    const checkedItemId = checkedItem.slice(0,24);
+    const title = checkedItem.slice(25);
+    console.log(title);
+
+    if (title === 'Weekend List'){
+        WeekendItem.findByIdAndRemove(checkedItemId, function(err){
+            if(!err){
+            res.redirect('/weekend');
+        }
+        });
+        
+    } else if (title === 'Weekday List') {
+        WeekdayItem.findByIdAndRemove(checkedItemId, function (err) {
+            if (!err)
+                res.redirect('/weekday');
+        });
+        
+    } else {
+        Item.findByIdAndRemove(checkedItemId, function (err){
+            if (!err)
+                res.redirect('/today');
+        });
+        
+    }
+
 })
 
 app.listen(3000, function(req, res) {
