@@ -2,121 +2,71 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const date = require((__dirname) + "/date.js");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 const app = express();
 
 app.set("view engine", 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 mongoose.connect('mongodb://localhost/todolistDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const itemsSchema = new mongoose.Schema({
     name: String,
-    delete: false,
+    default: false,
 });
 const Item = mongoose.model("Item", itemsSchema);
 
+const ListSchema = new mongoose.Schema({
+    name: String,
+    items: [itemsSchema],
+});
+const List = mongoose.model("List", ListSchema);
+
+
 const item1 = new Item({
     name: 'Welcome to our todo List',
-    delete: false,
+    default: true,
 })
-
 const defaultItems = [item1];
 
-const weekdayListSchema = new mongoose.Schema({
-    name: String,
-    delete: false,
-});
-const WeekdayItem = mongoose.model("WeekdayItem", weekdayListSchema);
-
-
-const weekendListSchema = new mongoose.Schema({
-    name: String,
-    delete: false,
-});
-const WeekendItem = mongoose.model("WeekendItem", weekendListSchema);
-
-const weekdayList = [];
 
 app.get('/', function(req, res) {
     res.render('index');
 })
 
 app.post('/', function(req, res) {
-    if (req.body.list === 'weekday') {
-        res.redirect('/weekday');
-    } else if (req.body.list === 'weekend') {
-        res.redirect('/weekend')
-    } else {
+    if (req.body.list === 'today') {
         res.redirect('/today');
+    } else {
+        res.redirect('/new/title');
     }
 })
 
+app.get('/:customListName', function(req, res) {
+    const listName = req.params.customListName;
 
-app.get('/weekday', function(req, res) {
-    WeekdayItem.find({}, function(err, foundItems) {
-        if (foundItems.length === 0) {
-            WeekdayItem.insertMany(defaultItems, function(err) {
-                if (err)
-                    console.log(err);
-                else
-                    console.log("inserted!");
-            });
-            res.redirect('/weekday');
+    List.findOne({name: listName}, function(err, foundList){
+        if(!err){
+            if(foundList){
+                res.render('list', {
+                    listTitle: foundList.name,
+                    item: foundList.items,
+                })
+            }
+            else {
+                const list = new List({
+                name: listName,
+                items: defaultItems,
+            })
+
+            list.save();
+            res.redirect('/'+ listName);
+            }
         }
-        res.render('list', {
-            listTitle: "Weekday List",
-            item: foundItems,
-        });
-
-    });
-})
-
-app.post('/weekday', function(req, res) {
-    let title = req.body.title;
-    const itemName = req.body.item;
-    const item = new WeekdayItem({
-        name: itemName,
-        delete: false,
     })
-
-    item.save();
-    res.redirect('/weekday');
-
 })
-
-
-app.get('/weekend', function(req, res) {
-    WeekendItem.find({}, function(err, foundItems) {
-        if (foundItems.length === 0) {
-            WeekendItem.insertMany(defaultItems, function(err) {
-                if (err)
-                    console.log(err);
-                else
-                    console.log("inserted!");
-            });
-            res.redirect('/weekend');
-        }
-        res.render('list', {
-        listTitle: "Weekend List",
-        item: foundItems,
-    });
-
-    });
-})
-
-app.post('/weekend', function(req, res) {
-    const itemName = req.body.item;
-    const item = new WeekendItem({
-        name: itemName,
-        delete: false,
-    })
-
-    item.save();
-    res.redirect('/weekend');
-})
-
 
 app.get('/today', function(req, res) {
     Item.find({}, function(err, foundItems) {
@@ -124,10 +74,15 @@ app.get('/today', function(req, res) {
             Item.insertMany(defaultItems, function(err) {
                 if (err)
                     console.log(err);
-                else
-                    console.log("inserted!");
             });
             res.redirect('/today');
+        }
+
+        if(foundItems.length > 0){
+            Item.findOneAndRemove({default: true}, function (err){
+                if(!err)
+                    console.log("Removed");
+            });
         }
 
         const day = date.getDate();
@@ -140,42 +95,57 @@ app.get('/today', function(req, res) {
 
 app.post('/today', function(req, res) {
     const itemName = req.body.item;
+    const listName = req.body.list;
+
     const item = new Item({
         name: itemName,
         delete: false,
     });
 
-    item.save();
-    res.redirect('/today');
+    if(listName === 'Today'){
+        item.save();
+        res.redirect('/today');
+    } 
+    else {
+        List.findOne({name: listName}, function(err, foundList) {
+        foundList.items.push(item);
+        foundList.save();
+        res.redirect('/'+ listName);
+    })
+
+    }
 })
 
 app.post('/delete', function(req, res) {
     const checkedItem = req.body.checkedItem;
     const checkedItemId = checkedItem.slice(0,24);
     const title = checkedItem.slice(25);
-    console.log(title);
 
-    if (title === 'Weekend List'){
-        WeekendItem.findByIdAndRemove(checkedItemId, function(err){
-            if(!err){
-            res.redirect('/weekend');
-        }
-        });
-        
-    } else if (title === 'Weekday List') {
-        WeekdayItem.findByIdAndRemove(checkedItemId, function (err) {
-            if (!err)
-                res.redirect('/weekday');
-        });
-        
-    } else {
+    if (title === 'Today'){
         Item.findByIdAndRemove(checkedItemId, function (err){
             if (!err)
                 res.redirect('/today');
         });
         
+    } else {
+        List.findOneAndUpdate({name: title}, 
+            {$pull: {items: {_id: checkedItemId}}}, 
+            function (err, foundList) {
+                if (!err) {
+                     res.redirect('/'+ title);
+                }
+        })
+        
     }
+})
 
+app.get('/new/title', function(req, res) {
+    res.render('title', {});
+})
+
+app.post('/new/title', function(req, res) {
+    const path = req.body.title;
+    res.redirect('/'+ path );
 })
 
 app.listen(3000, function(req, res) {
