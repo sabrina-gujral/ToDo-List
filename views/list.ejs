@@ -14,12 +14,12 @@
             <div class="col-md-12">
                 <div class="card card-white">
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="/today" method="post">
                             <input type="text" class="form-control add-task" placeholder="New Item" name="item" autocomplete="off">
-                            <button type="submit" name="list" value=<%=listTitle %> style="display: none;"></button>
+                            <button type="submit" name="list" value="<%=listTitle%>"" style="display: none;"></button>
                         </form>
 
-                        <div class="todo-list">
+                        <div class="todo-list sortable">
                             <% for (var i = 0; i < item.length; ++i) { %>
                             <form action="/delete" method="post">
                                 <div id="<%='item' +i %>" class="todo-item">

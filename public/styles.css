@@ -159,3 +159,14 @@ input:checked+span {
     color: crimson;
     font-size: 1.5rem !important;
 }
+
+.title {
+    margin: 0 20% 2% 20% !important;
+    padding: 5%;
+
+
+}
+
+.title-input {
+    width: 50% !important;
+}
