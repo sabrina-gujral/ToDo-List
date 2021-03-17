@@ -1,30 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const date = require((__dirname) + "/date.js");
-const mongoose = require("mongoose");
-const _ = require("lodash");
+const schemas = require((__dirname) + "/db.js");
+const Item = schemas.Item;
+const List = schemas.List;
 
 const app = express();
 
 app.set("view engine", 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-
-mongoose.connect('mongodb://localhost/todolistDB', { useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false });
-
-const itemsSchema = new mongoose.Schema({
-    name: String,
-    default: false,
-});
-const Item = mongoose.model("Item", itemsSchema);
-
-const ListSchema = new mongoose.Schema({
-    name: String,
-    items: [itemsSchema],
-});
-const List = mongoose.model("List", ListSchema);
 
 const item1 = new Item({
     name: 'Welcome to our todo List',
