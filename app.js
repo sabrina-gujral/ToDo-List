@@ -64,12 +64,12 @@ app.get('/today', function(req, res) {
             res.redirect('/today');
         }
 
-        // if (foundItems.length > 0) {
-        //     Item.findOneAndRemove({ default: true }, function(err) {
-        //         if (!err)
-        //             console.log("Removed");
-        //     });
-        // }
+        if (foundItems.length > 0) {
+            Item.findOneAndRemove({ default: true }, function(err) {
+                if (!err)
+                    console.log("Removed");
+            });
+        }
 
         const day = date.getDate();
         res.render('list', {
