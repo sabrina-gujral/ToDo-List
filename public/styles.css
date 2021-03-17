@@ -67,7 +67,7 @@ div.checker span {}
     zoom: 1;
     text-align: center;
     background-position: 0 -260px;
-    font-size: 20px;
+    font-size: 16px;
     margin: 2px auto 2px 5px;
     color: #194D4B;
     font-weight: 600;
@@ -84,9 +84,9 @@ div.uploader {
     vertical-align: middle;
 }
 
-.card {
+.card-white {
     margin: 0 20%;
-    padding: 25px;
+    padding: 15px;
     margin-bottom: 20px;
     border: 0.5rem !important;
     background: #fff;
@@ -104,8 +104,8 @@ div.uploader {
 }
 
 input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     margin-right: 20px;
 }
 
@@ -125,6 +125,7 @@ input:checked+span {
 
 .form-control {
     color: #25303B !important;
+    font-weight: 600 !important;
     border-bottom: 1px solid #999ba1 !important;
     border-top: 0 !important;
     border-right: 0 !important;
@@ -163,10 +164,37 @@ input:checked+span {
 .title {
     margin: 0 20% 2% 20% !important;
     padding: 5%;
+}
 
-
+.my-list {
+    margin: 2% auto;
 }
 
 .title-input {
     width: 50% !important;
+}
+
+.card-compiled {
+    margin: auto;
+    margin-bottom: 20px;
+    border: 0 !important;
+    padding: 1% !important;
+    overflow-y: scroll !important;
+    box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04);
+}
+.list-heading {
+    text-decoration: none !important;
+    color: #221719;
+}
+
+body::-webkit-scrollbar, .card::-webkit-scrollbar {
+    width: 0.25em;
+}
+
+body::-webkit-scrollbar-track, .card::-webkit-scrollbar-track {
+    background-color: #FBF6E5;
+}
+
+body::-webkit-scrollbar-thumb, .card::-webkit-scrollbar-thumb {
+    background-color: #6649b8;
 }
