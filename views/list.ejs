@@ -3,9 +3,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="box" id="heading">
+                <h3 class="box" id="heading">
                     <%= listTitle %>
-                </h1>
+                    <% if(date) {%>
+                    ,<%= date%>
+                    <% } %>
+                </h3>
             </div>
         </div>
     </div>
