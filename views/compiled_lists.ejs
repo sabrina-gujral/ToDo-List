@@ -1,0 +1,26 @@
+<%- include("header"); -%>
+<div class="container-fluid my-list">
+    <div class="row">
+        <% for(var i = 0; i < lists.length; ++i) { %>
+        <div class="col-sm-6 col-md-3">
+            <div class="card card-compiled" style="width: 14rem; height: 11rem; background-color: #FBF6E5;">
+                <div class="card-body">
+                    <h5 class="card-title"><a class="list-heading" href="/l/<%=lists[i].name%>">
+                            <%=lists[i].name%></a><br></h5>
+                    <p class="card-text">
+                        <ul>
+                            <% for(var j = 1; j < lists[i].items.length; ++j) {%>
+                            <li><%= lists[i].items[j].name %></li>
+                            <% } %>
+                        </ul>
+                    
+                    
+                    
+                </p>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<%- include("footer"); -%>
